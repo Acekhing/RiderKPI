@@ -42,12 +42,15 @@ try
     app.UseSerilogRequestLogging();
     app.UseCors();
 
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
 
     app.MapControllers();
 
-    Log.Information("KPI API starting on {Urls}", builder.Configuration["Urls"]);
+    Log.Information("KPI API starting on {Urls}", builder.Configuration["ASPNETCORE_URLS"] ?? "default");
     app.Run();
 }
 catch (Exception ex)

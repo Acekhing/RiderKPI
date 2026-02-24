@@ -3,3 +3,6 @@ obj/
 .idea/
 *.user
 *.suo
+.git/
+*.md
+render.yaml

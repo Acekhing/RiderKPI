@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: kpi-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    region: oregon
+    plan: starter
+    envVars:
+      - key: ClickHouse__ConnectionString
+        sync: false
+      - key: Cors__AllowedOrigins__0
+        sync: false
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
