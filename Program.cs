@@ -1,4 +1,5 @@
 using Serilog;
+using KpiApi.Infrastructure;
 using KpiApi.Models;
 using KpiApi.Repositories;
 using KpiApi.Services;
@@ -19,10 +20,16 @@ try
     builder.Services.Configure<ClickHouseSettings>(builder.Configuration.GetSection("ClickHouse"));
     builder.Services.Configure<KpiSettings>(builder.Configuration.GetSection("Kpi"));
     builder.Services.Configure<CorsSettings>(builder.Configuration.GetSection("Cors"));
+    builder.Services.Configure<GpsPingsProducerSettings>(builder.Configuration.GetSection("GpsPingsProducer"));
+    builder.Services.Configure<OrdersProducerSettings>(builder.Configuration.GetSection("OrdersProducer"));
 
     // DI registrations
     builder.Services.AddSingleton<IKpiRepository, KpiRepository>();
     builder.Services.AddSingleton<IKpiService, KpiService>();
+    builder.Services.AddSingleton<GpsPingsClickHouseWriter>();
+    builder.Services.AddSingleton<OrdersClickHouseWriter>();
+    builder.Services.AddHostedService<GpsPingsBackgroundService>();
+    builder.Services.AddHostedService<OrdersBackgroundService>();
     builder.Services.AddControllers();
 
     // CORS — allow the Next.js dashboard
